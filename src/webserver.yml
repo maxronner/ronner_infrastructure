@@ -1,0 +1,13 @@
+- name: Home Assistant
+  hosts: webserver
+  vars_files:
+    - "./vault.yml"
+  vars:
+    ansible_user: max
+    ansible_become_password: "{{ become_credentials['webserver']['password'] }}"
+  roles:
+    - common
+    - homeassistant_backup_service
+    - setup_ssl
+    - install_docker
+    - run_containers

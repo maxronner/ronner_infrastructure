@@ -1,0 +1,7 @@
+- name: Update all packages to the latest version and remove unnecessary packages
+  become: yes
+  apt:
+    update_cache: yes
+    upgrade: dist
+    autoremove: yes
+    autoclean: yes

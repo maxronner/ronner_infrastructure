@@ -1,0 +1,29 @@
+- name: Run Home Assistant container
+  become: yes
+  docker_container:
+    name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - "{{ config_directory }}:/config"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/run/dbus:/run/dbus:ro"
+      - "/etc/ssl/certs:/config/ssl:ro"
+    restart_policy: unless-stopped
+    network_mode: host
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+
+- name: Run Mosquitto container # MQTT broker
+  become: yes
+  docker_container:
+    name: mosquitto
+    image: eclipse-mosquitto
+    volumes:
+      - "/opt/mosquitto:/mosquitto"
+      - "/opt/mosquitto/data:/mosquitto/data"
+      - "/opt/mosquitto/log:/mosquitto/log"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    restart_policy: unless-stopped
+    network_mode: host

@@ -1,0 +1,8 @@
+homeassistant:
+  hosts:
+    webserver:
+    backup_server:
+
+vpn:
+  hosts:
+    webserver:

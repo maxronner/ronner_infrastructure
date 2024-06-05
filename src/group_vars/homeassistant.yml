@@ -1,0 +1,4 @@
+managed_ssh_public_key_tmp_path: "/tmp/id_rsa.pub"
+home_assistant_root_directory: "/etc/home_assistant"
+config_directory: "{{ home_assistant_root_directory }}/config"
+backup_server_preferred_directory: "{{ config_directory }}/backups/home_assistant"

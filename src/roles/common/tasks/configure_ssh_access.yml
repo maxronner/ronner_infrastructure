@@ -1,0 +1,39 @@
+- name: Copy SSH public key
+  authorized_key:
+    user: "{{ ansible_user_id }}"
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  delegate_to: "{{ ansible_host }}"
+
+- name: Check SSH key authentication
+  command: ssh -o PreferredAuthentications=publickey -o PasswordAuthentication=no {{ ansible_user }}@{{ ansible_host }} exit
+  register: result
+  ignore_errors: no
+  delegate_to: localhost
+
+- name: Disable password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PasswordAuthentication"
+    line: "PasswordAuthentication no"
+  notify: Restart SSH
+  become: yes
+
+- name: Disable empty passwords # not sure if needed
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PermitEmptyPasswords"
+    line: "PermitEmptyPasswords no"
+  notify: Restart SSH
+  become: yes
+
+- name: Verify password authentication is disabled
+  command: ssh -o BatchMode=yes PreferredAuthentications=password -o PasswordAuthentication=yes  {{ ansible_user }}@{{ ansible_host }} exit
+  register: result
+  ignore_errors: yes
+  delegate_to: localhost
+
+- name: Fail if password authentication is not disabled
+  fail:
+    msg: "Password authentication is not disabled"
+  when: result is not failed

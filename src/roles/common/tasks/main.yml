@@ -1,0 +1,2 @@
+- include_tasks: update_all.yml
+- include_tasks: configure_ssh_access.yml
