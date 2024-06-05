@@ -1,6 +1,6 @@
-# Home Assistant Setup
+# Home Infrastructure Setup
 
-This project uses Ansible to automate the setup and configuration of Home Assistant.
+This project uses Ansible to automate the setup and configuration of my home infrastructure.
 
 ## Prerequisites
 
