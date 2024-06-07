@@ -1,0 +1,13 @@
+- name: Count number of backup files
+  find:
+    paths: "{{ backup_server_preferred_directory }}"
+    patterns: "*.tar"
+  register: backups
+
+- name: Remove oldest backup file
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items:
+    - "{{ backups.files | sort(attribute='mtime') | first }}"
+  when: backups.matched > 10
