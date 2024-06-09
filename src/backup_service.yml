@@ -1,0 +1,24 @@
+- name: Configure backup server
+  hosts: backup_server
+  vars_files:
+    - "./vault.yml"
+  vars:
+    ansible_user: "{{ become_credentials['backupserver']['user'] }}"
+    ansible_become_password: "{{ become_credentials['backupserver']['password'] }}"
+  roles:
+    - create_backup_user
+    - directory_counter_cleaner
+    - copy_public_ssh_key_from_node
+    - scheduled_scp_backup_download
+
+- name: Configure webserver backup service
+  hosts: webserver
+  vars_files:
+    - "./vault.yml"
+  vars:
+    ansible_user: "{{ become_credentials['webserver']['user'] }}"
+    ansible_become_password: "{{ become_credentials['webserver']['password'] }}"
+  roles:
+    - create_backup_user
+    - copy_public_ssh_key_to_node
+    - local_backup_copy_service

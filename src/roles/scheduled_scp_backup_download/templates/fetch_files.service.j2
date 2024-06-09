@@ -1,0 +1,11 @@
+[Unit]
+Description=Fetch files using scp
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/fetch_files.sh
+User={{ backup_user }}
+Group={{ backup_user }}
+
+[Install]
+WantedBy=multi-user.target

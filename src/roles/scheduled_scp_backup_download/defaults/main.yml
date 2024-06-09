@@ -1,0 +1,5 @@
+local_destination_path: "{{ backup_server_destination_directory}}"
+remote_file_path: "{{ backup_server_destination_directory }}"
+ssh_private_key_path: "{{ ssh_key_path }}"
+scp_host: "{{ hostvars['webserver']['ansible_host'] }}"
+scp_user: "{{ backup_user }}"

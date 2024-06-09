@@ -1,8 +1,0 @@
-- name: Copy fetched public SSH key from server node to backup node
-  become: yes
-  copy:
-    src: "{{ managed_ssh_public_key_tmp_path }}"
-    dest: /root/.ssh/authorized_keys
-    owner: root
-    group: root
-    mode: "0600"

@@ -1,0 +1,6 @@
+- name: Copy SSH key to managed node
+  become: true
+  authorized_key:
+    user: "{{ backup_user }}"
+    state: present
+    key: "{{ lookup('file', '{{ managed_ssh_public_key_tmp_path }}') }}"

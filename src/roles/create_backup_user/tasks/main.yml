@@ -1,0 +1,14 @@
+- name: Create backup user
+  user:
+    name: "{{ backup_user }}"
+    shell: /bin/bash
+    state: present
+  become: true
+
+- name: Ensure directory exists
+  file:
+    path: "/home/{{ backup_user }}"
+    state: directory
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+  become: true

@@ -1,6 +1,14 @@
+- name: Ensure directory exists
+  file:
+    path: "{{ backup_server_destination_directory }}"
+    state: directory
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+  become: true
+
 - name: Count number of backup files
   find:
-    paths: "{{ backup_server_preferred_directory }}"
+    paths: "{{ backup_server_destination_directory }}"
     patterns: "*.tar"
   register: backups
 

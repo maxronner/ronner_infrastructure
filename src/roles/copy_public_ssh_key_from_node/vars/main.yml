@@ -1,0 +1,2 @@
+ssh_key_directory: "/home/backup/.ssh"
+ssh_key_path: "{{ ssh_key_directory }}/id_rsa"

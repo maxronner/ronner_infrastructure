@@ -1,0 +1,19 @@
+- name: Ensure directory exists
+  file:
+    path: "{{ ssh_key_directory }}"
+    state: directory
+  become: true
+  become_user: "{{ backup_user }}"
+
+- name: Generate SSH key pair
+  openssh_keypair:
+    path: "{{ ssh_key_path }}"
+    size: 2048
+  become: true
+
+- name: Fetch public key
+  fetch:
+    src: "{{ ssh_key_path }}.pub"
+    dest: "{{ managed_ssh_public_key_tmp_path }}"
+    flat: yes
+  become: true

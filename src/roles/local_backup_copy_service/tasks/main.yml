@@ -2,7 +2,15 @@
   apt:
     name: inotify-tools
     state: present
-  become: yes
+  become: true
+
+- name: Ensure directory exists.
+  file:
+    path: /home/{{ backup_user }}/home_assistant/backups
+    state: directory
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+  become: true
 
 - name: Create script to watch directory and copy new files
   copy:
@@ -11,12 +19,12 @@
     content: |
       #!/bin/bash
       WATCH_DIR={{ config_directory }}/backups
-      DEST_DIR=hostvars['backup_server']['ansible_user'] }}@{{ hostvars['backup_server']['ansible_host'] }}:{{ backup_server_preferred_directory }}
+      DEST_DIR=/home/{{ backup_user }}/home_assistant/backups
       inotifywait -m "$WATCH_DIR" -e create -e moved_to |
           while read path action file; do
-              scp "$path$file" "$DEST_DIR"
+              mv "$path$file" "$DEST_DIR"
           done
-  become: yes
+  become: true
 
 - name: Create systemd service for watch_and_copy
   copy:
@@ -31,11 +39,11 @@
 
       [Install]
       WantedBy=multi-user.target
-  become: yes
+  become: true
 
 - name: Start and enable watch_and_copy service
   systemd:
     name: watch_and_copy
     state: started
     enabled: yes
-  become: yes
+  become: true

@@ -1,8 +1,6 @@
 homeassistant:
   hosts:
     webserver:
+      ansible_host: 192.168.1.10
     backup_server:
-
-vpn:
-  hosts:
-    webserver:
+      ansible_host: 192.168.1.11

@@ -1,0 +1,3 @@
+#!/bin/bash
+# Fetch files using scp
+scp -i {{ ssh_private_key_path }} {{ scp_user }}@{{ scp_host }}:{{ remote_file_path }} {{ local_destination_path }}
