@@ -21,4 +21,4 @@
   roles:
     - create_backup_user
     - copy_public_ssh_key_to_node
-    - local_backup_copy_service
+    - install_local_backup_copy_service

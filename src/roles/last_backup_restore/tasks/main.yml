@@ -1,0 +1,36 @@
+- name: Fetch latest backup
+  synchronize:
+    src: "{{ backup_server_destination_directory }}"
+    dest: /tmp/home_assistant_backups
+    mode: pull
+    rsync_opts:
+      - "--include='*.tar.gz'"
+      - "--exclude='*'"
+      - "--prune-empty-dirs"
+  delegate_to: "{{ inventory_hostname }}"
+  register: sync_result
+
+- block:
+    - name: Find latest backup
+      find:
+        paths: /tmp/home_assistant_backups
+        patterns: "*.tar.gz"
+        recurse: no
+      register: latest_backup
+    - name: Untar the backup file
+      unarchive:
+        src: "{{ latest_backup.files | sort(attribute='mtime', reverse=true) | first | json_query('path') }}"
+        dest: /tmp/home_assistant_backups
+        remote_src: yes
+
+    - name: Untar the inner tar file
+      unarchive:
+        src: /tmp/home_assistant_backups/homeassistant.tar.gz
+        dest: /tmp/home_assistant_backups
+        remote_src: yes
+
+    - name: Copy directory contents
+      copy:
+        src: /tmp/home_assistant_backups/homeassistant/data
+        dest: "{{ config_directory }}"
+  when: sync_result.changed

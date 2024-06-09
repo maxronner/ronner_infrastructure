@@ -1,0 +1,45 @@
+- name: Ensure directory exists.
+  file:
+    path: /home/{{ backup_user }}/home_assistant/backups
+    state: directory
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+  become: true
+
+- name: Copy script to copy latest backup to home directory
+  become: true
+  template:
+    dest: /usr/local/bin/copy_backup.sh
+    mode: 0755
+    src: copy_backup.sh.j2
+
+- name: Copy systemd service file to target
+  template:
+    src: copy_backup.service
+    dest: /etc/systemd/system/copy_backup.service
+  become: true
+
+- name: Copy systemd timer file to target
+  template:
+    src: copy_backup.timer
+    dest: /etc/systemd/system/copy_backup.timer
+  become: true
+
+- name: Create systemd service for copy_backup
+  become: true
+  template:
+    dest: /etc/systemd/system/copy_backup.service
+    mode: 0644
+    src: copy_backup.service
+
+- name: Reload systemd daemon to recognize new service
+  systemd:
+    daemon_reload: yes
+  become: true
+
+- name: Enable and start copy_backup timer
+  systemd:
+    name: copy_backup.timer
+    enabled: yes
+    state: started
+  become: true

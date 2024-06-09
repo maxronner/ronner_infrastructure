@@ -2,5 +2,6 @@
   become: true
   authorized_key:
     user: "{{ backup_user }}"
+    path: "/home/{{ backup_user }}/.ssh/authorized_keys"
     state: present
     key: "{{ lookup('file', '{{ managed_ssh_public_key_tmp_path }}') }}"

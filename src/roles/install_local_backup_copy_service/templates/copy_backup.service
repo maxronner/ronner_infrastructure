@@ -1,0 +1,8 @@
+[Unit]
+Description=Copies newest file to destination
+
+[Service]
+ExecStart=/usr/local/bin/copy_backup.sh
+
+[Install]
+WantedBy=multi-user.target

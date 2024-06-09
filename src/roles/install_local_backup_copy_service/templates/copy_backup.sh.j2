@@ -1,0 +1,13 @@
+#!/bin/bash
+SRC_DIR={{ config_directory }}/backups
+DEST_DIR=/home/{{ backup_user }}/home_assistant/backups
+
+# Find the newest file in the SRC_DIR
+newest_file=$(find "$SRC_DIR" -type f -printf "%T@ %p\n" | sort -n -r | head -n 1 | cut -d' ' -f2-)
+
+# Copy the newest file to DEST_DIR
+if [ -n "$newest_file" ]; then
+cp "$newest_file" "$DEST_DIR"
+else
+echo "No files found in $SRC_DIR."
+fi

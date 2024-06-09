@@ -10,6 +10,7 @@
     path: "{{ ssh_key_path }}"
     size: 2048
   become: true
+  become_user: "{{ backup_user }}"
 
 - name: Fetch public key
   fetch:
