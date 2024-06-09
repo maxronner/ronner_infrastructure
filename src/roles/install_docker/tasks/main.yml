@@ -1,12 +1,12 @@
 - name: Install Docker
-  become: yes
+  become: true
   apt:
     name: docker.io
     state: present
     update_cache: yes
 
 - name: Ensure Docker service is running
-  become: yes
+  become: true
   systemd:
     name: docker
     state: started

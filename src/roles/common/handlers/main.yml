@@ -2,4 +2,4 @@
   service:
     name: ssh
     state: restarted
-  become: yes
+  become: true

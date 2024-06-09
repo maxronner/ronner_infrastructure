@@ -1,12 +1,12 @@
 - name: Copy SSL certificate
-  become: yes
+  become: true
   copy:
     src: "{{ ssl_certificate_path }}"
     dest: /etc/ssl/certs/origin.pem
     mode: 0644
 
 - name: Copy SSL private key
-  become: yes
+  become: true
   copy:
     src: "{{ ssl_private_key_path }}"
     dest: /etc/ssl/certs/privkey.pem

@@ -1,5 +1,5 @@
 - name: Run Home Assistant container
-  become: yes
+  become: true
   docker_container:
     name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
@@ -14,7 +14,7 @@
       - "/dev/ttyUSB0:/dev/ttyUSB0"
 
 - name: Run Mosquitto container # MQTT broker
-  become: yes
+  become: true
   docker_container:
     name: mosquitto
     image: eclipse-mosquitto

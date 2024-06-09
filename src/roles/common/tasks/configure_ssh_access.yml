@@ -8,7 +8,7 @@
 - name: Check SSH key authentication
   command: ssh -o PreferredAuthentications=publickey -o PasswordAuthentication=no {{ ansible_user }}@{{ ansible_host }} exit
   register: result
-  ignore_errors: no
+  ignore_errors: false
   delegate_to: localhost
 
 - name: Disable password authentication
@@ -17,7 +17,7 @@
     regexp: "^#?PasswordAuthentication"
     line: "PasswordAuthentication no"
   notify: Restart SSH
-  become: yes
+  become: true
 
 - name: Disable empty passwords # not sure if needed
   lineinfile:
@@ -25,12 +25,12 @@
     regexp: "^#?PermitEmptyPasswords"
     line: "PermitEmptyPasswords no"
   notify: Restart SSH
-  become: yes
+  become: true
 
 - name: Verify password authentication is disabled
   command: ssh -o BatchMode=yes PreferredAuthentications=password -o PasswordAuthentication=yes  {{ ansible_user }}@{{ ansible_host }} exit
   register: result
-  ignore_errors: yes
+  ignore_errors: true
   delegate_to: localhost
 
 - name: Fail if password authentication is not disabled

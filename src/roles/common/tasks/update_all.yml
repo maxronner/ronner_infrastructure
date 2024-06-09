@@ -1,5 +1,5 @@
 - name: Update all packages to the latest version and remove unnecessary packages
-  become: yes
+  become: true
   apt:
     update_cache: yes
     upgrade: dist
