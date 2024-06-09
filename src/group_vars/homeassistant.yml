@@ -1,7 +1,4 @@
 ansible_become_user: root
 
-home_assistant_root_directory: "/etc/home_assistant"
-config_directory: "{{ home_assistant_root_directory }}/config"
-
 managed_ssh_public_key_tmp_path: "/tmp/ssh/id_rsa.pub"
 backup_user: "backup"

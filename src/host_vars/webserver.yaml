@@ -1,0 +1,2 @@
+home_assistant_root_directory: "/etc/home_assistant"
+config_directory: "{{ home_assistant_root_directory }}/config"
