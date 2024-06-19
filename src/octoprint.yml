@@ -1,0 +1,11 @@
+- name: OctoPrint
+  hosts: rpi3
+  vars_files:
+    - "./vault.yml"
+  vars:
+    ansible_user: "{{ become_credentials['rpi3']['user'] }}"
+    ansible_become_password: "{{ become_credentials['rpi3']['password'] }}"
+  roles:
+    - common
+    - install_docker
+    - setup_octoprint

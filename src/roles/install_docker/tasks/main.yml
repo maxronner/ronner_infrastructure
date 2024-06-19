@@ -1,13 +1,13 @@
 - name: Install Docker
   become: true
-  apt:
+  ansible.builtin.apt:
     name: docker.io
     state: present
-    update_cache: yes
+    update_cache: true
 
 - name: Ensure Docker service is running
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: docker
     state: started
-    enabled: yes
+    enabled: true

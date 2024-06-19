@@ -1,0 +1,15 @@
+- name: Run OctoPrint container
+  become: true
+  community.docker.docker_container:
+    name: octoprint
+    image: "octoprint/octoprint:latest"
+    restart_policy: unless-stopped
+    ports:
+      - 80:80
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+      - "/dev/video0:/dev/video0"
+    volumes:
+      - /octoprint:/octoprint
+    env:
+      ENABLE_MJPG_STREAMER: 'true'
